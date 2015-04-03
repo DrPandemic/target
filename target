@@ -6,4 +6,8 @@ if [ -z "$PID" ]; then
     $1 &>/dev/null &
 fi
 
-wmctrl -a $2
+if [ -z "$2" ]; then 
+    wmctrl -a $1
+else
+    wmctrl -a $2
+fi
