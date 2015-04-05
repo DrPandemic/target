@@ -1,13 +1,42 @@
-#! /bin/sh
+#!/bin/bash
 
-PID="$(pidof $1)"
+PROGRAM=""
+NAME=""
+TITLE=""
 
-if [ -z "$PID" ]; then
-    $1 &>/dev/null &
+while getopts ":p:n:t:" opt; do
+  case $opt in
+    p)
+      PROGRAM=$OPTARG
+      ;;
+    n)
+      NAME=$OPTARG
+      ;;
+    t)
+      TITLE=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+if [ -z "$NAME" ]; then
+    NAME=$PROGRAM
 fi
 
-if [ -z "$2" ]; then 
-    wmctrl -a $1
+if [ -z "$PROGRAM" ]; then
+    PROGRAM=$NAME
+fi
+
+PID="$(pidof $NAME)"
+
+if [ -z "$PID" ]; then
+    $PROGRAM &>/dev/null &
+fi
+
+if [ -z "$TITLE" ]; then
+    wmctrl -a $NAME
 else
-    wmctrl -a $2
+    wmctrl -a $TITLE
 fi
