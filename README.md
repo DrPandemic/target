@@ -2,16 +2,24 @@
 It is a simple bash script to help create keyboard shortcut. They will help you manage your windows without using your mouse.
 
 # How to use it?
-```target program [name]```
+```target [-p program] [-n name] [-t title] [-a all]```
 
-The goal of the script, is that you can call it anytime. If the app is not running it will launch it and if it's already running it will focus the window containing the ```name``` in its title. If the ```name``` is not present it will use the ```program``` to try focus the window.
+The goal of the script, is that you can call it anytime. If the app is not running it will launch it and if it's already running it will focus the window.
+
+The ```program``` is the command used to launch the application.
+
+The ```name``` is the name of the program that is running. The script is using this flag to find out if the application is already running on the system.
+
+The ```title``` is used to target the window. You should put a string always contained by the application window title.
+
+The ```all``` will replace the other flags if they are not set.
 
 
 # Examples
-```target firefox```
+```target -a firefox```
 
-```target google-chrome chrome```
+```target -p google-chrome -a chrome```
 
 # Dependencies
-You need to have ```wmctrl``` installed. Also, you need ```pidof``` which is present on linux. I don't think Mac has it by default, but there is simple alternative like : https://gist.github.com/doitian/827854. 
+You need to have ```wmctrl``` installed. Also, you need ```pidof``` which is present on linux. I don't think Mac has it by default, but there is simple alternative like : https://gist.github.com/doitian/827854.
 Important : I didn't try to run my script with this alternate ```pidof```.

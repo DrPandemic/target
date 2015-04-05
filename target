@@ -3,7 +3,6 @@
 PROGRAM=""
 NAME=""
 TITLE=""
-ALL=""
 
 while getopts ":p:n:t:a:" opt; do
   case $opt in
@@ -17,25 +16,23 @@ while getopts ":p:n:t:a:" opt; do
       TITLE=$OPTARG
       ;;
     a)
-      ALL=$OPTARG
+      if [ -z "$NAME" ]; then
+          NAME=$OPTARG
+      fi
+
+      if [ -z "$PROGRAM" ]; then
+          PROGRAM=$OPTARG
+      fi
+
+      if [ -z "$TITLE" ]; then
+          TITLE=$OPTARG
+      fi
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       ;;
   esac
 done
-
-if [ -z "$NAME" ]; then
-    NAME=$ALL
-fi
-
-if [ -z "$PROGRAM" ]; then
-    PROGRAM=$ALL
-fi
-
-if [ -z "$TITLE" ]; then
-    TITLE=$ALL
-fi
 
 PID="$(pidof $NAME)"
 
