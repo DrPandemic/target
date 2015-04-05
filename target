@@ -43,5 +43,6 @@ if [ -z "$PID" ]; then
     $PROGRAM &>/dev/null &
 fi
 
-wmctrl -a $TITLE
-
+if [ -n "$TITLE" ]; then
+  wmctrl -a $TITLE
+fi
