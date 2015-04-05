@@ -3,8 +3,9 @@
 PROGRAM=""
 NAME=""
 TITLE=""
+ALL=""
 
-while getopts ":p:n:t:" opt; do
+while getopts ":p:n:t:a:" opt; do
   case $opt in
     p)
       PROGRAM=$OPTARG
@@ -15,6 +16,9 @@ while getopts ":p:n:t:" opt; do
     t)
       TITLE=$OPTARG
       ;;
+    a)
+      ALL=$OPTARG
+      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       ;;
@@ -22,11 +26,15 @@ while getopts ":p:n:t:" opt; do
 done
 
 if [ -z "$NAME" ]; then
-    NAME=$PROGRAM
+    NAME=$ALL
 fi
 
 if [ -z "$PROGRAM" ]; then
-    PROGRAM=$NAME
+    PROGRAM=$ALL
+fi
+
+if [ -z "$TITLE" ]; then
+    TITLE=$ALL
 fi
 
 PID="$(pidof $NAME)"
@@ -35,8 +43,5 @@ if [ -z "$PID" ]; then
     $PROGRAM &>/dev/null &
 fi
 
-if [ -z "$TITLE" ]; then
-    wmctrl -a $NAME
-else
-    wmctrl -a $TITLE
-fi
+wmctrl -a $TITLE
+
