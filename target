@@ -3,8 +3,9 @@
 PROGRAM=""
 NAME=""
 TITLE=""
+WM_CLASS_NAME=""
 
-while getopts ":p:n:t:a:" opt; do
+while getopts ":p:n:t:a:x:" opt; do
   case $opt in
     p)
       PROGRAM=$OPTARG
@@ -15,6 +16,9 @@ while getopts ":p:n:t:a:" opt; do
     t)
       TITLE=$OPTARG
       ;;
+    x)
+      WM_CLASS_NAME=$OPTARG
+      ;;
     a)
       if [ -z "$NAME" ]; then
           NAME=$OPTARG
@@ -24,7 +28,7 @@ while getopts ":p:n:t:a:" opt; do
           PROGRAM=$OPTARG
       fi
 
-      if [ -z "$TITLE" ]; then
+      if [ -z "$TITLE" ] && [ -z "$WM_CLASS_NAME" ]; then
           TITLE=$OPTARG
       fi
       ;;
@@ -35,6 +39,7 @@ while getopts ":p:n:t:a:" opt; do
 done
 
 PID="$(pidof $NAME)"
+echo $NAME
 
 if [ -z "$PID" ]; then
     $PROGRAM &>/dev/null &
@@ -42,4 +47,6 @@ fi
 
 if [ -n "$TITLE" ]; then
   wmctrl -a $TITLE
+elif [ -n "$WM_CLASS_NAME" ]; then
+  wmctrl -xa $WM_CLASS_NAME
 fi
